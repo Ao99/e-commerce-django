@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block head_title %}{{ object }}{% endblock %}
+
+{% block content %}
+
+  <main class="mt-0 pt-0">
+    <div class="container dark-grey-text mt-0">
+
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+
+          <img src="{{ object.photo.url }}" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+
+          <!--Content-->
+          <div class="p-4">
+            
+            <h1 class="lead font-weight-bold mb-0">{{ object.title }}</h1>
+            
+            <div class="mb-3">
+              {% for cat in object.category %}
+              <a href="">
+                  <span class="badge secondary-color mr-1">{{ cat }}</span>
+              </a>
+              {% endfor %}
+              <a href="">
+                <span class="badge default-color mr-1">{{ object.get_gender_display }}</span>
+              </a>
+            </div>
+            
+            <p class="lead">
+              {% if object.discount_price %}
+                <span class="grey-text">
+                  <del>${{ object.price }}</del>
+                </span>
+                <span class="red-text">${{ object.discount_price }}</span>
+              {% else %}
+                <span  class="blue-text">${{ object.price }}</span>
+              {% endif %}
+            </p>
+
+            <p class="lead">Description:</p>
+
+            <p>{{ object.description }}</p>
+
+            <!--<form class="d-flex justify-content-left">-->
+              <!-- Default input -->
+            <!--  <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">-->
+            <!--  <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart-->
+            <!--    <i class="fas fa-shopping-cart ml-1"></i>-->
+            <!--  </button>-->
+
+            <!--</form>-->
+            <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p" >Add to cart
+              <i class="fas fa-shopping-cart ml-1"></i>
+            </a>
+
+          </div>
+          <!--Content-->
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+      <hr>
+
+      <!--Grid row-->
+      <div class="row d-flex justify-content-center wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-md-6 text-center">
+
+          <h4 class="my-4 h4">Additional information</h4>
+
+          <p>More description about this product.</p>
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-12 mb-4">
+
+          <img src="/media/backgrounds/1.jpg" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <img src="/media/backgrounds/2.jpg" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <img src="/media/backgrounds/3.jpg" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+      
+      <hr>
+
+      <!--Grid row-->
+      <div class="row d-flex justify-content-center wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-md-6 text-center">
+
+          <h4 class="my-4 h4">Recommended products for you</h4>
+
+        </div>
+        <!--Grid column-->
+        
+        <div class="table-responsive text-nowrap">
+          <table class="table">
+            <thead>
+              <tr class="d-flex align-items-stretch">
+                {% for object in object_list %}
+                <th scope="col">
+                  <div class="card">
+    
+                    <!--Card image-->
+                    <div class="view overlay">
+                      <img src="{{ object.photo.url }}" class="card-img-top"
+                        alt="">
+                      <a href="{{ object.get_absolute_url }}">
+                        <div class="mask rgba-white-slight"></div>
+                      </a>
+                    </div>
+                    <!--Card image-->
+      
+                    <!--Card content-->
+                    <div class="card-body text-center">
+                      <!--Category & Title-->
+                      <p>
+                          <a href="{{ object.get_absolute_url }}" class="dark-grey-text">
+                            {{ object.title }}
+                          </a>
+                      </p>
+      
+                      <p>
+                          {% if object.discount_price %}
+                            <span class="font-weight-bold grey-text">
+                              <del>${{ object.price }}</del>
+                            </span>
+                            <span class="font-weight-bold red-text">${{ object.discount_price }}</span>
+                          {% else %}
+                            <span class="font-weight-bold blue-text">${{ object.price }}</span>
+                          {% endif %}
+                      </p>
+                      
+                    </div>
+                    <!--Card content-->
+      
+                  </div>
+                </th>
+                {% endfor %}
+              </tr>
+            </thead>
+          </table>
+        </div>
+
+      </div>
+      <!--Grid row-->
+      
+      
+
+    </div>
+  </main>
+
+{% endblock content %}

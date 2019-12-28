@@ -21,13 +21,11 @@ class Command(BaseCommand):
             filedata = file.read()
         
         changed = False
-        for line in filedata:
-            if current in line:        
-                filedata = filedata.replace(current, new)
-                with open(f, 'w') as file:
-                    file.write(filedata)
-                self.stdout.write(self.style.SUCCESS('Port for localhost has been changed to %s' % new_port))
-                changed = True
-                break
+        if current in filedata:        
+            filedata = filedata.replace(current, new)
+            with open(f, 'w') as file:
+                file.write(filedata)
+            self.stdout.write(self.style.SUCCESS('Port for localhost has been changed to %s' % new_port))
+            changed = True
         if not changed:
             self.stdout.write(self.style.ERROR('Error: port for localhost has not been changed, incorrect current port: %s' % current_port))
