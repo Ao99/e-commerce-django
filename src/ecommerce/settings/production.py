@@ -1,13 +1,20 @@
 from .base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', cast=bool)
+DEBUG = True # config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['ip-address', 'www.your-website.com']
+ALLOWED_HOSTS = ['d626b1ba14904b5d83f341340ce1dfc5.vfs.cloud9.ca-central-1.amazonaws.com', 'ecommerce.ca-central-1.elasticbeanstalk.com']
 
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 # DATABASES = {
 #     'default': {
@@ -20,12 +27,6 @@ ALLOWED_HOSTS = ['ip-address', 'www.your-website.com']
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 # stripe
 
