@@ -1,9 +1,9 @@
 from .base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True # config('DEBUG', cast=bool)
+DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['d626b1ba14904b5d83f341340ce1dfc5.vfs.cloud9.ca-central-1.amazonaws.com', 'ecommerce.mhfscuceay.ca-central-1.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['ecommerce.ao9.io', 'ecommerce.ca-central-1.elasticbeanstalk.com', 'http://ecommerce.ca-central-1.elasticbeanstalk.com/', 'd626b1ba14904b5d83f341340ce1dfc5.vfs.cloud9.ca-central-1.amazonaws.com']
 
 
 # Database
