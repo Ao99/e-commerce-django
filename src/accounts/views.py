@@ -32,7 +32,6 @@ class ProfileView(LoginRequiredMixin, View):
             ref_code = kwargs['ref_code']
         except:
             ref_code = None
-        print(ref_code)
         try:
             default_ship = userprofile.default_ship
         except ObjectDoesNotExist:
