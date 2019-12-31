@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'crispy_forms',
-    'multiselectfield',
     'django_countries',
     
     # own
@@ -112,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Toronto'
 
 USE_I18N = True
 
@@ -144,6 +143,7 @@ AUTHENTICATION_BACKENDS = (
 )
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
+ACCOUNT_EMAIL_VERIFICATION ="none"
 
 
 # messages

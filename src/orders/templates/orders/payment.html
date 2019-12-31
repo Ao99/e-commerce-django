@@ -2,11 +2,12 @@
 
 {% load static %}
 
+{% block head_title %}Payment{% endblock %}
+
 {% block extra_head %}
 <style>
 #stripeBtnLabel {
   font-family: "Helvetica Neue", Helvetica, sans-serif;
-  font-size: 16px;
   font-variant: normal;
   padding: 0;
   margin: 0;
@@ -45,7 +46,6 @@ button:hover {
 }
 #stripe-form {
   padding: 30px;
-  height: 120px;
 }
 #card-errors {
   height: 20px;
@@ -53,7 +53,7 @@ button:hover {
   color: #fa755a;
 }
 .stripe-form-row {
-  width: 70%;
+  width: 100%;
   float: left;
 }
 /**
@@ -85,47 +85,253 @@ button:hover {
 
 {% block content %}
 
-  <main >
+  <main>
     <div class="container wow fadeIn">
 
+      <!-- Heading -->
       <h2 class="my-5 h2 text-center">Payment</h2>
-
+      
+      <!--Grid row-->
       <div class="row">
 
-        <div class="col-md-12 mb-5">
-          <div class="card">
-
-            <script src="https://js.stripe.com/v3/"></script>
-
-            <form action="." method="post" id="stripe-form">
-                {% csrf_token %}
-                <div class="stripe-form-row">
-                    <label for="card-element" id="stripeBtnLabel">
-                        Credit or debit card (use 4242 4242 4242 4242 for testing)
-                    </label>
-                    <div id="card-element" class="StripeElement StripeElement--empty"><div class="__PrivateStripeElement" style="margin: 0px !important; padding: 0px !important; border: none !important; display: block !important; background: transparent !important; position: relative !important; opacity: 1 !important;"><iframe frameborder="0" allowtransparency="true" scrolling="no" name="__privateStripeFrame5" allowpaymentrequest="true" src="https://js.stripe.com/v3/elements-inner-card-19066928f2ed1ba3ffada645e45f5b50.html#style[base][color]=%2332325d&amp;style[base][fontFamily]=%22Helvetica+Neue%22%2C+Helvetica%2C+sans-serif&amp;style[base][fontSmoothing]=antialiased&amp;style[base][fontSize]=16px&amp;style[base][::placeholder][color]=%23aab7c4&amp;style[invalid][color]=%23fa755a&amp;style[invalid][iconColor]=%23fa755a&amp;componentName=card&amp;wait=false&amp;rtl=false&amp;keyMode=test&amp;origin=https%3A%2F%2Fstripe.com&amp;referrer=https%3A%2F%2Fstripe.com%2Fdocs%2Fstripe-js&amp;controllerId=__privateStripeController1" title="Secure payment input frame" style="border: none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; height: 19.2px;"></iframe><input class="__PrivateStripeElement-input" aria-hidden="true" aria-label=" " autocomplete="false" maxlength="1" style="border: none !important; display: block !important; position: absolute !important; height: 1px !important; top: 0px !important; left: 0px !important; padding: 0px !important; margin: 0px !important; width: 100% !important; opacity: 0 !important; background: transparent !important; pointer-events: none !important; font-size: 16px !important;"></div></div>
-
-                    <!-- Used to display form errors. -->
-                    <div id="card-errors" role="alert"></div>
-                </div>
-
-                <button id="stripeBtn">Submit Payment</button>
-            </form>
-
-          </div>
-        </div>
-        
         <!--Grid column-->
-        <div class="col-md-12 mb-4 mt-5">
+        <div class="col-md-7 mb-4">
+          
+          <script src="https://js.stripe.com/v3/"></script>
+          
+          <form method='POST' class="card-body" id='stripe-form'>{% csrf_token %}
+            
+            <h4 class="d-flex justify-content-between align-items-center">
+              <span class="text-muted">Pay with Stripe</span>
+            </h4>
+            
+            <!--Card-->
+            <div class="card pt-3 pb-3 pl-3 pr-3 mb-3">
+              <div class="stripe-form-row">
+                  <label for="card-element" id="stripeBtnLabel">
+                      <h5>Credit or debit card</h5>
+                      <span class="green-text">(4242 4242 4242 4242 for testing)</span>
+                  </label>
+                  <div id="card-element" class="StripeElement StripeElement--empty"><div class="__PrivateStripeElement" style="margin: 0px !important; padding: 0px !important; border: none !important; display: block !important; background: transparent !important; position: relative !important; opacity: 1 !important;"><iframe frameborder="0" allowtransparency="true" scrolling="no" name="__privateStripeFrame5" allowpaymentrequest="true" src="https://js.stripe.com/v3/elements-inner-card-19066928f2ed1ba3ffada645e45f5b50.html#style[base][color]=%2332325d&amp;style[base][fontFamily]=%22Helvetica+Neue%22%2C+Helvetica%2C+sans-serif&amp;style[base][fontSmoothing]=antialiased&amp;style[base][fontSize]=16px&amp;style[base][::placeholder][color]=%23aab7c4&amp;style[invalid][color]=%23fa755a&amp;style[invalid][iconColor]=%23fa755a&amp;componentName=card&amp;wait=false&amp;rtl=false&amp;keyMode=test&amp;origin=https%3A%2F%2Fstripe.com&amp;referrer=https%3A%2F%2Fstripe.com%2Fdocs%2Fstripe-js&amp;controllerId=__privateStripeController1" title="Secure payment input frame" style="border: none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; height: 19.2px;"></iframe><input class="__PrivateStripeElement-input" aria-hidden="true" aria-label=" " autocomplete="false" maxlength="1" style="border: none !important; display: block !important; position: absolute !important; height: 1px !important; top: 0px !important; left: 0px !important; padding: 0px !important; margin: 0px !important; width: 100% !important; opacity: 0 !important; background: transparent !important; pointer-events: none !important; font-size: 16px !important;"></div></div>
+                  <!-- Used to display form errors. -->
+                  <div id="card-errors" role="alert"></div>
+              </div>
+                    
+              <button id="stripeBtn">Submit Payment</button>
+            </div>
+            <!--Card-->
+            
+            <h4 class="d-flex justify-content-between align-items-center">
+              <span class="text-muted">Billing address</span>
+            </h4>
+            
+            <!--Card-->
+            <div class="card pt-3 pb-3 pl-3 pr-3">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="use_same_address" id="use_same_address">
+                <label class="custom-control-label" for="use_same_address">Billing address is the same as shipping address</label>
+              </div>
+              {% if default_bill != None %}
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="use_default_bill" id="use_default_bill">
+                <label class="custom-control-label" for="use_default_bill">Use default billing address: {{ default_bill.address|truncatechars:15 }}</label>
+              </div>
+              {% endif %}
+              
+              <!--Hidable-->
+              <div class="hidable_billing_form">
+                
+                <!--Grid row-->
+                <div class="row">
+  
+                  <!--Grid column-->
+                  <div class="col-md-6 mb-2">
+  
+                    <!--firstName-->
+                    <div class="md-form ">
+                      <input value="{% if form.first_name.value != None %}{{ form.first_name.value }}{% endif %}" type="text" id="first_name" name="first_name" class="form-control" required>
+                      <label for="first_name" class="">First name</label>
+                    </div>
+  
+                  </div>
+                  <!--Grid column-->
+  
+                  <!--Grid column-->
+                  <div class="col-md-6 mb-2">
+  
+                    <!--lastName-->
+                    <div class="md-form">
+                      <input value="{% if form.last_name.value != None %}{{ form.last_name.value }}{% endif %}" type="text" id="last_name" name="last_name" class="form-control" required>
+                      <label for="last_name" class="">Last name</label>
+                    </div>
+  
+                  </div>
+                  <!--Grid column-->
+  
+                </div>
+                <!--Grid row-->
+  
+                <!--email-->
+                <div class="md-form mb-5">
+                  <input value="{% if form.email.value != None %}{{ form.email.value }}{% endif %}" type="text" id="email" name="email" class="form-control" placeholder="youremail@example.com" required>
+                  <label for="email" class="">Email</label>
+                </div>
+  
+                <!--address-->
+                <div class="md-form mb-5">
+                  <input value="{% if form.address.value != None %}{{ form.address.value }}{% endif %}" type="text" id="address" name="address" class="form-control" placeholder="1234 Main St" required>
+                  <label for="address" class="">Address</label>
+                </div>
+  
+                <!--address-2-->
+                <div class="md-form mb-3">
+                  <input value="{% if form.address2.value != None %}{{ form.address2.value }}{% endif %}" type="text" id="address2" name="address2" class="form-control" placeholder="Apartment or suite">
+                  <label for="address2" class="">Address 2 (optional)</label>
+                </div>
+  
+                <!--Grid row-->
+                <div class="row">
+  
+                  <!--Grid column-->
+                  <div class="col-md-6 mb-2">
+  
+                    <!--city-->
+                    <div class="md-form ">
+                      <input value="{% if form.city.value != None %}{{ form.city.value }}{% endif %}" type="text" id="city" name="city" class="form-control" required>
+                      <label for="city">City</label>
+                    </div>
+  
+                  </div>
+                  <!--Grid column-->
+  
+                  <!--Grid column-->
+                  <div class="col-md-6 mb-2">
+  
+                    <!--state-->
+                    <div class="md-form">
+                      <input value="{% if form.state.value != None %}{{ form.state.value }}{% endif %}" type="text" id="state" name="state" class="form-control">
+                      <label for="state">State (optional)</label>
+                    </div>
+  
+                  </div>
+                  <!--Grid column-->
+  
+                </div>
+                <!--Grid row-->
+                
+                <!--Grid row-->
+                <div class="row">
+  
+                  <!--Grid column-->
+                  <div class="col-md-6 mb-2">
+  
+                    <label class="grey-text" for="country">Country</label>
+                    {{ form.country }}
+  
+                  </div>
+                  <!--Grid column-->
+                  
+                  <!--Grid column-->
+                  <div class="col-md-6 mb-2">
+  
+                    <!--zip-->
+                    <div class="md-form">
+                      <input value="{% if form.zip.value != None %}{{ form.zip.value }}{% endif %}" type="text" id="zip" name="zip" class="form-control" required>
+                      <label for="zip">Zip</label>
+                    </div>
+  
+                  </div>
+                  <!--Grid column-->
+  
+                </div>
+                <!--Grid row-->
+  
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" name="save_bill" id="save_bill">
+                  <label class="custom-control-label" for="save_bill">Save as default billing address</label>
+                </div>
+                
+              </div>
+              <!--Hidable-->
+            
+            </div>
+            <!--Card-->
+
+          </form>
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-md-5 mb-4">
           {% include 'cart_snippet.html' %}
         </div>
         <!--Grid column-->
 
       </div>
+      <!--Grid row-->
 
     </div>
   </main>
 
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  var hidable_billing_form = $('.hidable_billing_form');
+  var use_same_address = document.querySelector("input[name=use_same_address]");
+  var use_default_bill = document.querySelector("input[name=use_default_bill]");
+  var first_name = document.querySelector("input[name=first_name]");
+  var last_name = document.querySelector("input[name=last_name]");
+  var email = document.querySelector("input[name=email]");
+  var address = document.querySelector("input[name=address]");
+  var city = document.querySelector("input[name=city]");
+  var zip = document.querySelector("input[name=zip]");
+  
+  use_same_address.addEventListener('change', function(){
+    if (this.checked) {
+      hidable_billing_form.hide();
+      first_name.required = false;
+      last_name.required = false;
+      email.required = false;
+      address.required = false;
+      city.required = false;
+      zip.required = false;
+      use_default_bill.disabled = true;
+    } else {
+      hidable_billing_form.show();
+      first_name.required = true;
+      last_name.required = true;
+      email.required = true;
+      address.required = true;
+      city.required = true;
+      zip.required = true;
+      use_default_bill.disabled = false;
+    }
+  })
+  
+  use_default_bill.addEventListener('change', function(){
+    if (this.checked) {
+      hidable_billing_form.hide();
+      use_same_address.disabled = true;
+      first_name.required = false;
+      last_name.required = false;
+      email.required = false;
+      address.required = false;
+      city.required = false;
+      zip.required = false;
+    } else {
+      hidable_billing_form.show();
+      use_same_address.disabled = false;
+      first_name.required = true;
+      last_name.required = true;
+      email.required = true;
+      address.required = true;
+      city.required = true;
+      zip.required = true;
+    }
+  })
+</script>
 
 <script nonce="">  // Create a Stripe client.
 

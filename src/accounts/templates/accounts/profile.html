@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% block head_title %}Profile{% endblock %}
+{% block content %}
+
+<main>
+    <div class="container">
+        <h2 class="mt-4 mb-5">
+            <div class="mr-5">
+                Username: {{ user.username }}
+                <a class="btn btn-default" href="{% url 'account_change_password' %}" >Change password</a>
+            </div>
+            <div class="mr-5">
+                Email:
+                {% if user.email %}
+                    {{ user.email }}
+                {% else %}
+                    -
+                {% endif %}
+                <a class="btn btn-default" href="{% url 'account_email' %}" >Update email</a>
+            </div>
+        </h2>
+        
+        <h4>Orders</h4>
+        <div class="card mb-3">
+            <div class="table-responsive text-nowrap mt-3 mb-1 pr-2 pl-2">
+                {% if order_list.exists %}
+                <table class="table w-auto">
+                    <thead>
+                        <tr>
+                            <th scope="col">Order placed</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Ship to</th>
+                            <th scope="col">Reference code</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in order_list %}
+                        <tr>
+                            <td scope="row">
+                                {% if order.payment.ordered_date %}
+                                    {{ order.payment.ordered_date }}
+                                {% else %}
+                                    In process
+                                {% endif %}
+                            </td>
+                            <td scope="row">CND${{ order.cart.get_total_price }}</td>
+                            <td scope="row">{{ order.address.first_name }} {{ order.address.last_name }} - {{ order.address.address }}</td>
+                            <td scope="row">
+                                <a href="{{ order.get_show_items_url }}">
+                                    <span class="blue-text">{{ order.ref_code }}</span>
+                                </a>
+                            </td>
+                            <td scope="row">
+                            {% if order.canceled %}
+                                <span class="red-text">Canceled</span>
+                            {% elif order.ordered %}
+                                <span class="green-text">Ordered</span>
+                            {% else %}
+                                <span class="blue-text">In process</span>
+                            {% endif %}
+                            </td>
+                            <td scope="row">
+                            {% if order.canceled %}
+                                <a class="btn btn-default" href="{{ order.get_reorder_url }}">Reorder</a>
+                            {% elif order.ordered %}
+                                <a class="btn btn-danger" href="{{ order.get_cancel_order_url }}">Cancel</a>
+                            {% else %}
+                                <a class="btn btn-primary" href="{% url 'orders:checkout' %}">Checkout</a>
+                            {% endif %}
+                            </td>
+                        </tr>
+                            {% if ref_code == order.ref_code %}
+                            <tr>
+                                <td colspan="5">
+                                    {% include 'order_cart_snippet.html' %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <h5>You don't have any orders.</h5>
+                {% endif %}
+            </div>    
+        </div>
+        
+        <div class="row">
+            
+            <div class="col-md-6 mb-3">
+                <h4>Default shipping address</h4>
+                <div class="card">
+                    <div class="table-responsive text-nowrap mt-3 mb-1 pr-2 pl-2">
+                        {% if default_ship != None %}
+                        <table class="table w-auto">
+                            <thead>
+                                <tr>
+                                    <th scope="col">First name</th>
+                                    <th scope="col">Last name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Address2</th>
+                                    <th scope="col">City</th>
+                                    <th scope="col">State</th>
+                                    <th scope="col">Country</th>
+                                    <th scope="col">Zip</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td scope="row">{{ default_ship.first_name }}</td>
+                                    <td scope="row">{{ default_ship.last_name }}</td>
+                                    <td scope="row">{{ default_ship.email }}</td>
+                                    <td scope="row">{{ default_ship.address }}</td>
+                                    <td scope="row">{{ default_ship.address2 }}</td>
+                                    <td scope="row">{{ default_ship.city }}</td>
+                                    <td scope="row">{{ default_ship.state }}</td>
+                                    <td scope="row">{{ default_ship.country }}</td>
+                                    <td scope="row">{{ default_ship.zip }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <h5>You don't have a saved shipping address.</h5>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+                <h4>Default billing address</h4>
+                <div class="card mb-3">
+                    <div class="table-responsive text-nowrap mt-3 mb-1 pr-2 pl-2">
+                        {% if default_bill != None %}
+                        <table class="table w-auto">
+                            <thead>
+                                <tr>
+                                    <th scope="col">First name</th>
+                                    <th scope="col">Last name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Address2</th>
+                                    <th scope="col">City</th>
+                                    <th scope="col">State</th>
+                                    <th scope="col">Country</th>
+                                    <th scope="col">Zip</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td scope="row">{{ default_bill.first_name }}</td>
+                                    <td scope="row">{{ default_bill.last_name }}</td>
+                                    <td scope="row">{{ default_bill.email }}</td>
+                                    <td scope="row">{{ default_bill.address }}</td>
+                                    <td scope="row">{{ default_bill.address2 }}</td>
+                                    <td scope="row">{{ default_bill.city }}</td>
+                                    <td scope="row">{{ default_bill.state }}</td>
+                                    <td scope="row">{{ default_bill.country }}</td>
+                                    <td scope="row">{{ default_bill.zip }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <h5>You don't have a saved shipping address.</h5>
+                        {% endif %}
+                    </div>    
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock content %}

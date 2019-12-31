@@ -5,7 +5,7 @@
 {% block content %}
 
   <main class="mt-0 pt-0">
-    <div class="container dark-grey-text mt-0">
+    <div class="container dark-grey-text mt-3">
 
       <!--Grid row-->
       <div class="row wow fadeIn">
@@ -27,14 +27,16 @@
             <h1 class="lead font-weight-bold mb-0">{{ object.title }}</h1>
             
             <div class="mb-3">
-              {% for cat in object.category %}
-              <a href="">
+              {% for cat in object.category.all %}
+              <a href="{{ cat.get_category_view_url }}">
                   <span class="badge secondary-color mr-1">{{ cat }}</span>
               </a>
               {% endfor %}
-              <a href="">
-                <span class="badge default-color mr-1">{{ object.get_gender_display }}</span>
-              </a>
+                  {% for gender in object.gender.all %}
+                  <a href="{{ gender.get_gender_view_url }}">
+                      <span class="badge default-color mr-1">{{ gender }}</span>
+                  </a>
+                  {% endfor %}
             </div>
             
             <p class="lead">
@@ -52,17 +54,12 @@
 
             <p>{{ object.description }}</p>
 
-            <!--<form class="d-flex justify-content-left">-->
-              <!-- Default input -->
-            <!--  <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">-->
-            <!--  <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart-->
-            <!--    <i class="fas fa-shopping-cart ml-1"></i>-->
-            <!--  </button>-->
-
-            <!--</form>-->
-            <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p" >Add to cart
-              <i class="fas fa-shopping-cart ml-1"></i>
-            </a>
+            <form class="d-flex justify-content-left" method="POST" action="{{ object.get_add_to_cart_url }}">{% csrf_token %}
+              <input name="quantity" type="number" value="1" min="1" max="99" aria-label="Search" class="form-control" style="width: 100px">
+              <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart
+                <i class="fas fa-shopping-cart ml-1"></i>
+              </button>
+            </form>
 
           </div>
           <!--Content-->
@@ -72,7 +69,85 @@
 
       </div>
       <!--Grid row-->
+      
+      <hr>
+      
+      <!--Section: Products v.3-->
+      <section class="mb-4">
+        <h5 class="my-4 h4">Other items in the same categories</h5>
+        <p class="green-text">
+          This auto-recommendation ingores genders on purpose, so we don't need
+          three times more testing products for all genders: female, male and kids.
+        </p>
+        <p class="green-text">
+          It can be easily modified to detect both categories and genders in the future.
+        </p>
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+          
+          {% for object in object_list %}
+          <!--Grid column-->
+          <div class="col-md-3 mb-4 d-flex align-items-stretch">
 
+            <!--Card-->
+            <div class="card w-75">
+
+              <!--Card image-->
+              <div class="view overlay">
+                <img src="{{ object.photo.url }}" class="card-img-top"
+                  alt="">
+                <a href="{{ object.get_absolute_url }}">
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+              <!--Card image-->
+
+              <!--Card content-->
+              <div class="card-body text-center">
+                <!--Category & Title-->
+                <p>
+                  <a href="{{ object.get_absolute_url }}" class="dark-grey-text">
+                    {{ object.title }}
+                  </a>
+                  {% for cat in object.category.all %}
+                  <a href="{{ cat.get_category_view_url }}">
+                      <span class="badge badge-pill secondary-color mr-1">{{ cat }}</span>
+                  </a>
+                  {% endfor %}
+                  {% for gender in object.gender.all %}
+                  <a href="{{ gender.get_gender_view_url }}">
+                      <span class="badge badge-pill default-color mr-1">{{ gender }}</span>
+                  </a>
+                  {% endfor %}
+                </p>
+
+                <p>
+                  {% if object.discount_price %}
+                    <span class="font-weight-bold grey-text">
+                      <del>${{ object.price }}</del>
+                    </span>
+                    <span class="font-weight-bold red-text">${{ object.discount_price }}</span>
+                  {% else %}
+                    <span class="font-weight-bold blue-text">${{ object.price }}</span>
+                  {% endif %}
+                </p>
+                
+              </div>
+              <!--Card content-->
+
+            </div>
+            <!--Card-->
+
+          </div>
+          <!--Grid column-->
+          {% endfor %}
+          
+        </div>
+        <!--Grid row-->
+
+      </section>
+      <!--Section: Products v.3-->
+      
       <hr>
 
       <!--Grid row-->
@@ -120,73 +195,6 @@
 
       </div>
       <!--Grid row-->
-      
-      <hr>
-
-      <!--Grid row-->
-      <div class="row d-flex justify-content-center wow fadeIn">
-
-        <!--Grid column-->
-        <div class="col-md-6 text-center">
-
-          <h4 class="my-4 h4">Recommended products for you</h4>
-
-        </div>
-        <!--Grid column-->
-        
-        <div class="table-responsive text-nowrap">
-          <table class="table">
-            <thead>
-              <tr class="d-flex align-items-stretch">
-                {% for object in object_list %}
-                <th scope="col">
-                  <div class="card">
-    
-                    <!--Card image-->
-                    <div class="view overlay">
-                      <img src="{{ object.photo.url }}" class="card-img-top"
-                        alt="">
-                      <a href="{{ object.get_absolute_url }}">
-                        <div class="mask rgba-white-slight"></div>
-                      </a>
-                    </div>
-                    <!--Card image-->
-      
-                    <!--Card content-->
-                    <div class="card-body text-center">
-                      <!--Category & Title-->
-                      <p>
-                          <a href="{{ object.get_absolute_url }}" class="dark-grey-text">
-                            {{ object.title }}
-                          </a>
-                      </p>
-      
-                      <p>
-                          {% if object.discount_price %}
-                            <span class="font-weight-bold grey-text">
-                              <del>${{ object.price }}</del>
-                            </span>
-                            <span class="font-weight-bold red-text">${{ object.discount_price }}</span>
-                          {% else %}
-                            <span class="font-weight-bold blue-text">${{ object.price }}</span>
-                          {% endif %}
-                      </p>
-                      
-                    </div>
-                    <!--Card content-->
-      
-                  </div>
-                </th>
-                {% endfor %}
-              </tr>
-            </thead>
-          </table>
-        </div>
-
-      </div>
-      <!--Grid row-->
-      
-      
 
     </div>
   </main>

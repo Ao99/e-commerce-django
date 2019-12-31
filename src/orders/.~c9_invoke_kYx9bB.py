@@ -59,7 +59,7 @@ class CheckoutView(LoginRequiredMixin, View):
         form = CheckoutForm()
        
         try:
-            default_ship = request.user.userprofile.default_ship
+            default_ship = Address.objects.get(user=request.user, save_ship=True)
         except ObjectDoesNotExist:
             default_ship = None
         
@@ -75,7 +75,6 @@ class CheckoutView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
         
     def post(self, request, *args, **kwargs):
-        userprofile = request.user.userprofile
         form = CheckoutForm(request.POST)
         cart = Cart.objects.get(user=request.user, ordered=False)
         use_default_ship = request.POST.get('use_default_ship')
@@ -83,8 +82,18 @@ class CheckoutView(LoginRequiredMixin, View):
             pass
         else:
             if use_default_ship:
-                address = userprofile.default_ship
+                address = Address.objects.get(user=request.user, save_ship=True)
             elif form.is_valid():
+                # update default shipping address for this user
+                save_ship = form.cleaned_data.get('save_ship')
+                if save_ship:
+                    try:
+                        previous_saved = Address.objects.get(user=request.user, save_ship=True)
+                        previous_saved.save_ship = False
+                        previous_saved.save()
+                    except ObjectDoesNotExist:
+                        pass
+                        
                 address = Address(
                             user        = request.user,
                             first_name  = form.cleaned_data.get('first_name'),
@@ -96,14 +105,9 @@ class CheckoutView(LoginRequiredMixin, View):
                             state       = form.cleaned_data.get('state'),
                             country     = form.cleaned_data.get('country'),
                             zip         = form.cleaned_data.get('zip'),
+                            save_ship   = save_ship,
                         )
                 address.save()
-                
-                # update default shipping address for this user
-                save_ship = form.cleaned_data.get('save_ship')
-                if save_ship:
-                    userprofile.default_ship = address
-                    userprofile.save()
             # get + update or create order, don't forget to save order
             try:
                 order = Order.objects.get(user=request.user, ordered=False)
@@ -147,7 +151,7 @@ class PaymentView(LoginRequiredMixin, View):
         form = PaymentForm()
         
         try:
-            default_bill = request.user.userprofile.default_bill
+            default_bill = Address.objects.get(user=request.user, save_bill=True)
         except ObjectDoesNotExist:
             default_bill = None
             
@@ -161,8 +165,7 @@ class PaymentView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
     
     def post(self, request, *args, **kwargs):
-        userprofile = request.user.userprofile
-        form    = PaymentForm(request.POST)
+        form = PaymentForm(request.POST)
         order   = Order.objects.get(user=request.user, ordered=False)
         cart    = order.cart
         token   = request.POST.get('stripeToken')
@@ -175,8 +178,18 @@ class PaymentView(LoginRequiredMixin, View):
             if use_same_address:
                 address = order.address
             elif use_default_bill:
-                address = userprofile.default_bill
+                address = Address.objects.get(user=request.user, save_bill=True)
             elif form.is_valid():
+                # update default billing address for this user
+                save_bill = form.cleaned_data.get('save_bill')
+                if save_bill:
+                    try:
+                        previous_saved = Address.objects.get(user=request.user, save_bill=True)
+                        previous_saved.save_bill = False
+                        previous_saved.save()
+                    except ObjectDoesNotExist:
+                        pass
+                        
                 address = Address(
                             user        = request.user,
                             first_name  = form.cleaned_data.get('first_name'),
@@ -188,16 +201,9 @@ class PaymentView(LoginRequiredMixin, View):
                             state       = form.cleaned_data.get('state'),
                             country     = form.cleaned_data.get('country'),
                             zip         = form.cleaned_data.get('zip'),
+                            save_bill   = save_bill,
                         )
-                address.save()
-                
-                # update default billing address for this user
-                save_bill = form.cleaned_data.get('save_bill')
-                print(save_bill)
-                print(form.cleaned_data)
-                if save_bill:
-                    userprofile.default_bill = address
-                    userprofile.save()
+                address.save()    
         try:
             charge  = stripe.Charge.create(
                       amount    = int(cart.get_total_price() * 100), #cents

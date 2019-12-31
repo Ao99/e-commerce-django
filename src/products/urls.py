@@ -10,6 +10,8 @@ from .views import (
 app_name='products'
 urlpatterns = [
     path('', ItemListView.as_view(), name='item-list'),
+    path('category-<str:c_title>/', ItemListView.as_view(), name='category-view'),
+    path('gender-<str:g_title>/', ItemListView.as_view(), name='gender-view'),
     path('products/<slug>/', ItemDetailView.as_view(), name='item-detail'),
     path('add-to-cart/<slug>', add_to_cart, name='add-to-cart'),
     path('remove-single-from-cart/<slug>', remove_single_from_cart, name='remove-single-from-cart'),

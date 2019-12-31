@@ -7,45 +7,48 @@
 <ul class="list-group mb-3 z-depth-1">
   {% for order_item in cart.items.all %}
   <li class="list-group-item d-flex justify-content-between lh-condensed">
-    <div>
+    <a href="{{ order_item.item.get_absolute_url }}">
       <img src="{{ order_item.item.photo.url }}" alt="" width=50>
-      <p class="my-0">{{ order_item.quantity }} x {{ order_item.item.title}}</p>
+      <p class="my-0 black-text">{{ order_item.quantity }} x {{ order_item.item.title}}</p>
       <p class="text-muted">{{ order_item.item.description}}</p>
-    </div>
+    </a>
     <div class="text-muted">
       {% if order_item.item.discount_price %}
-      <span class="badge badge-danger">Saving ${{ order_item.get_total_item_saving }}</span>
-      {% endif %}
+      <span class="badge badge-danger">Saving ${{ order_item.get_total_item_saving }}</span> {% endif %}
       <span>${{ order_item.get_total_item_price }}</span>
     </div>
   </li>
   {% endfor %}
+  {% if cart.coupon %}
   <li class="list-group-item d-flex justify-content-between bg-light">
     <div class="text-success">
       <h6 class="my-0">Promo code</h6>
-      <small>EXAMPLECODE</small>
+      <small>{{ cart.coupon.code }}</small>
     </div>
-    <span class="text-success">-$5</span>
+    <span class="text-success">-${{ cart.get_coupon_off }}</span>
   </li>
+  {% endif %}
   <li class="list-group-item d-flex justify-content-between">
     <span>Total (CAD)</span>
     <div>
       {% if cart.has_discount_item %}
-      <span class="badge badge-danger">Total saving ${{ cart.get_total_saving }}</span>
-      {% endif %}
+      <span class="badge badge-danger">Total saving ${{ cart.get_total_saving }}</span> {% endif %}
       <strong>${{ cart.get_total_price }}</strong>
     </div>
   </li>
 </ul>
 <!-- Cart -->
-  
-  <!-- Promo code -->
-  <form class="card p-2">
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Promo code" aria-label="Recipient's username" aria-describedby="basic-addon2">
-      <div class="input-group-append">
-        <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Redeem</button>
-      </div>
+
+{% if display_coupon %}
+<!-- Promo code -->
+<form class="card p-2" method="POST" action="{% url 'orders:add-coupon' %}">{% csrf_token %}
+  <div class="input-group">
+    {{ couponform.code }}
+    <div class="input-group-append">
+      <button class="btn btn-secondary btn-md waves-effect m-0" type="submit">Redeem</button>
     </div>
-  </form>
-  <!-- Promo code -->
+  </div>
+  <span class="green-text ml-1">(Try  SAVE20  or  PERCENT15)</span>
+</form>
+<!-- Promo code -->
+{% endif %}

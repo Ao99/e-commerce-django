@@ -10,15 +10,17 @@ PAYMENT_CHOICES = (
 )
 
 class CheckoutForm(forms.ModelForm):
-    country     = CountryField(blank_label='(select country)').formfield(
+    use_default_ship    = forms.BooleanField(required=False)
+    save_ship           = forms.BooleanField(required=False)
+    country             = CountryField(blank_label='(select country)').formfield(
+                                                                    required=False,
                                                                     widget=CountrySelectWidget(attrs={
                                                                         'class': 'custom-select d-block w-100',
-                                                                    }))
-
-    payment_option  = forms.ChoiceField(
+                        }))
+    payment_option      = forms.ChoiceField(
                         choices = PAYMENT_CHOICES,
                         widget = forms.RadioSelect()
-                    )
+                        )
     
     class Meta:
         model = Address
@@ -32,5 +34,40 @@ class CheckoutForm(forms.ModelForm):
                 'state',
                 'country',
                 'zip',
-                'save_ship',
             ]
+            
+class PaymentForm(forms.ModelForm):
+    use_default_bill    = forms.BooleanField(required=False)
+    save_bill           = forms.BooleanField(required=False)
+    country             = CountryField(blank_label='(select country)').formfield(
+                                                                    required=False,
+                                                                    widget=CountrySelectWidget(attrs={
+                                                                        'class': 'custom-select d-block w-100',
+                        }))
+    
+    class Meta:
+        model = Address
+        fields = [
+                'first_name',
+                'last_name',
+                'email',
+                'address',
+                'address2',
+                'city',
+                'state',
+                'country',
+                'zip',
+            ]
+            
+class CouponForm(forms.Form):
+    code = forms.CharField(
+            max_length=15,
+            widget=forms.TextInput(
+                attrs={
+                    'class': "form-control",
+                    'placeholder': "Promo code",
+                    'aria-label': "Recipient's username",
+                    'aria-describedby': "basic-addon2",
+                }    
+            )
+        )
