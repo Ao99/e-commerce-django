@@ -6,10 +6,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <link rel="shortcut icon" type="image/x-icon" href="{{ MEDIA_URL }}favicon/favicon.ico"/>
+  
+  <meta property='og:title' content='E-commerce Web App'/>
+  <meta property='og:image' content='{{ MEDIA_URL }}ecom.png'/>
+  <meta property='og:description' content='This full-stack web app is a portfolio project with Django.'/>
+  <meta property='og:url' content='//ecom.ao9.io/'/>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ MEDIA_URL }}favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ MEDIA_URL }}favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ MEDIA_URL }}favicon/favicon-16x16.png">
+  <link rel="manifest" href="{{ MEDIA_URL }}favicon/site.webmanifest">
+  
   <title>{% block head_title %}{% endblock %}</title>
+  
   {% block extra_head %}
   {% endblock %}
+  
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
   <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
   <link href="{% static 'css/mdb.css' %}" rel="stylesheet">
