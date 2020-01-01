@@ -1,16 +1,11 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta property='og:title' content='E-commerce Web App'/>
-  <meta property='og:image' content='{{ MEDIA_URL }}ecom.png'/>
-  <meta property='og:description' content='This full-stack web app is a portfolio project with Django.'/>
-  <meta property='og:url' content='//ecom.ao9.io/'/>
   
   <link rel="apple-touch-icon" sizes="180x180" href="{{ MEDIA_URL }}favicon/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="{{ MEDIA_URL }}favicon/favicon-32x32.png">
@@ -18,6 +13,14 @@
   <link rel="manifest" href="{{ MEDIA_URL }}favicon/site.webmanifest">
   
   <title>{% block head_title %}{% endblock %}</title>
+  
+  <meta property='og:title' content='E-commerce Web App'/>
+  <meta property="og:type" content="website" />
+  <meta property='og:url' content='http://ecom.ao9.io/'/>
+  <meta property='og:description' content='This full-stack web app is a portfolio project with Django.'/>
+  <meta property='og:image' content='{{ MEDIA_URL }}ecom.png'/>
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   
   {% block extra_head %}
   {% endblock %}
