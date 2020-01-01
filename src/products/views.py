@@ -114,8 +114,11 @@ def add_to_cart(request, slug):
             messages.success(request, f"{item} has been added to your cart.")
     else:
         messages.error(request, "Please input a positive number.")
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
+    previous_page = HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    if "login" in previous_page.url:
+        return redirect('products:item-list')
+    else:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @login_required
 def remove_single_from_cart(request, slug):

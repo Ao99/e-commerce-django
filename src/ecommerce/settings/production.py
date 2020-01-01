@@ -3,7 +3,7 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['ecommerce.ao9.io', 'ecommerce.ca-central-1.elasticbeanstalk.com', 'http://ecommerce.ca-central-1.elasticbeanstalk.com/', 'd626b1ba14904b5d83f341340ce1dfc5.vfs.cloud9.ca-central-1.amazonaws.com']
+ALLOWED_HOSTS = ['ecom.ao9.io', 'ecommerce.ao9.io', 'ecommerce.ca-central-1.elasticbeanstalk.com', 'http://ecommerce.ca-central-1.elasticbeanstalk.com/', 'd626b1ba14904b5d83f341340ce1dfc5.vfs.cloud9.ca-central-1.amazonaws.com']
 
 
 # Database
