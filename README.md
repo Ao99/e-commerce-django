@@ -4,8 +4,8 @@ This is a portfolio full-stack project with Django
 
 ### [http://ecom.ao9.io](http://ecom.ao9.io)
 
-<img src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png" alt="Python" width="500">
-<img src="https://static.djangoproject.com/img/logos/django-logo-negative.png" alt="Python" width="500">
+<img src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png" alt="Python" width="300">
+<img src="https://static.djangoproject.com/img/logos/django-logo-negative.png" alt="Python" width="300">
 
 -   **Development environment**: AWS Cloud9 - a cloud IDE on Linux system
     
