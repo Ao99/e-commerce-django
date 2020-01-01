@@ -1,6 +1,6 @@
 # E-commerce Web App
 
-This is a portfolio full-stack project with Django
+This full-stack web app is a portfolio project with Django.
 
 ### [http://ecom.ao9.io](http://ecom.ao9.io)
 
