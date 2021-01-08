@@ -2,10 +2,9 @@
 
 This full-stack web app is a portfolio project with Django.
 
-### [http://ecom.ao9.io](http://ecom.ao9.io)
+### [https://ecom.ao9.io](https://ecom.ao9.io)
 
-<img src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png" alt="Python" width="300">
-<img src="https://static.djangoproject.com/img/logos/django-logo-negative.png" alt="Python" width="300">
+<img src="https://github.com/Ao99/e-commerce-django/blob/master/tools.png" alt="Tools">
 
 -   **Development environment**: AWS Cloud9 - a cloud IDE on Linux system
     
